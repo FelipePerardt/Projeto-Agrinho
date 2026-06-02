@@ -1,1 +1,1537 @@
-# Projeto-Agrinho
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Agrinho - Agro Forte, Futuro Sustentável</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --verde-escuro: #1a5c2a;
+            --verde-medio: #2d8a4e;
+            --verde-claro: #4caf50;
+            --verde-suave: #a8d5a2;
+            --amarelo: #f4d03f;
+            --amarelo-escuro: #d4a017;
+            --terra: #8B4513;
+            --terra-claro: #c68642;
+            --creme: #fdf6e3;
+            --branco: #ffffff;
+            --cinza-escuro: #2c2c2c;
+            --cinza: #555;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--cinza-escuro);
+            overflow-x: hidden;
+            background: var(--creme);
+        }
+
+        /* ===== LOADER ===== */
+        .loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--verde-escuro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loader-seed {
+            font-size: 60px;
+            animation: seedGrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes seedGrow {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(10deg); }
+        }
+
+        .loader-text {
+            margin-top: 20px;
+            font-size: 18px;
+            letter-spacing: 3px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(26, 92, 42, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            padding: 10px 40px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--amarelo);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--amarelo);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--amarelo);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--verde-escuro) 0%, #0d3318 50%, var(--verde-medio) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            backdrop-filter: blur(5px);
+            animation: fadeInDown 1s ease 0.5s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            opacity: 0.9;
+            max-width: 650px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 1.1s both;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro));
+            color: var(--verde-escuro);
+            box-shadow: 0 8px 30px rgba(244, 208, 63, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(244, 208, 63, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+
+        .scroll-indicator .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .scroll-indicator .mouse::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 10px;
+            background: white;
+            border-radius: 4px;
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { opacity: 1; top: 8px; }
+            100% { opacity: 0; top: 25px; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTIONS GENERAL ===== */
+        section {
+            padding: 100px 40px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--verde-claro), var(--verde-medio));
+            color: white;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--verde-escuro);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--cinza);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== SOBRE (ABOUT) ===== */
+        .sobre {
+            background: var(--branco);
+        }
+
+        .sobre-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .sobre-image {
+            position: relative;
+        }
+
+        .sobre-image .img-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--verde-suave), var(--verde-claro));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sobre-image .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20%, 20%); }
+        }
+
+        .sobre-image .floating-card {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--amarelo);
+            color: var(--verde-escuro);
+            padding: 20px 25px;
+            border-radius: 15px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .sobre-text h3 {
+            font-size: 1.8rem;
+            color: var(--verde-escuro);
+            margin-bottom: 20px;
+        }
+
+        .sobre-text p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--cinza);
+            margin-bottom: 15px;
+        }
+
+        .sobre-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--creme);
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--verde-escuro);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--cinza);
+            margin-top: 5px;
+        }
+
+        /* ===== AGRO FORTE ===== */
+        .agro-forte {
+            background: linear-gradient(180deg, var(--creme) 0%, var(--branco) 100%);
+        }
+
+        .agro-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .agro-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .agro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--verde-claro), var(--amarelo));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .agro-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .agro-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .agro-card .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--verde-suave), var(--verde-claro));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transition: transform 0.3s;
+        }
+
+        .agro-card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .agro-card h3 {
+            font-size: 1.3rem;
+            color: var(--verde-escuro);
+            margin-bottom: 12px;
+        }
+
+        .agro-card p {
+            font-size: 0.95rem;
+            color: var(--cinza);
+            line-height: 1.7;
+        }
+
+        /* ===== DESAFIOS ===== */
+        .desafios {
+            background: var(--verde-escuro);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .desafios::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath fill-rule='evenodd' d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .desafios .section-header h2 {
+            color: white;
+        }
+
+        .desafios .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .desafios .section-tag {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--amarelo), var(--verde-claro));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            background: rgba(255,255,255,0.12);
+            transform: scale(1.02);
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--amarelo);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(244, 208, 63, 0.5);
+            z-index: 1;
+        }
+
+        .timeline-content h3 {
+            color: var(--amarelo);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-content p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ===== VANTAGENS & BENEFÍCIOS ===== */
+        .vantagens {
+            background: var(--branco);
+        }
+
+        .vantagens-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .vantagem-column {
+            background: linear-gradient(135deg, #f8fff8, #e8f5e9);
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .vantagem-column h3 {
+            font-size: 1.5rem;
+            color: var(--verde-escuro);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vantagem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .vantagem-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .vantagem-item .check {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            background: linear-gradient(135deg, var(--verde-claro), var(--verde-medio));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .vantagem-item h4 {
+            font-size: 1rem;
+            color: var(--verde-escuro);
+            margin-bottom: 3px;
+        }
+
+        .vantagem-item p {
+            font-size: 0.9rem;
+            color: var(--cinza);
+            line-height: 1.5;
+        }
+
+        /* ===== FUTURO SUSTENTÁVEL ===== */
+        .futuro {
+            background: linear-gradient(135deg, #0d3318 0%, var(--verde-escuro) 50%, #1a4731 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .futuro::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.15), transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
+        }
+
+        .futuro::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(244, 208, 63, 0.1), transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            border-radius: 50%;
+        }
+
+        .futuro .section-header h2 {
+            color: white;
+        }
+
+        .futuro .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .futuro .section-tag {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .futuro-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .futuro-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .futuro-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .futuro-card:hover::after {
+            opacity: 1;
+        }
+
+        .futuro-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .futuro-card .card-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .futuro-card h3 {
+            font-size: 1.2rem;
+            color: var(--amarelo);
+            margin-bottom: 10px;
+        }
+
+        .futuro-card p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            background: linear-gradient(135deg, var(--amarelo), var(--amarelo-escuro));
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '🌱';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            top: -30px;
+            left: -30px;
+        }
+
+        .cta::after {
+            content: '🌾';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            bottom: -30px;
+            right: -30px;
+        }
+
+        .cta h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            color: var(--verde-escuro);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--cinza);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta .btn {
+            background: var(--verde-escuro);
+            color: white;
+            box-shadow: 0 8px 30px rgba(26, 92, 42, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(26, 92, 42, 0.6);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--cinza-escuro);
+            color: rgba(255,255,255,0.7);
+            padding: 60px 40px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-about h3 span {
+            color: var(--amarelo);
+        }
+
+        .footer-about p {
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .footer-links h4,
+        .footer-contact h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--amarelo);
+        }
+
+        .footer-contact p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 25px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--verde-claro), var(--verde-medio));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            section {
+                padding: 70px 20px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--verde-escuro);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.4s ease;
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .sobre-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .vantagens-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: row;
+                padding-left: 50px;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sobre-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-seed">🌱</div>
+            <div class="loader-text">PROJETO AGRINHO</div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">🌾 Projeto <span>Agrinho</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#sobre" onclick="closeMenu()">Sobre</a></li>
+            <li><a href="#agro-forte" onclick="closeMenu()">Agro Forte</a></li>
+            <li><a href="#desafios" onclick="closeMenu()">Desafios</a></li>
+            <li><a href="#vantagens" onclick="closeMenu()">Vantagens</a></li>
+            <li><a href="#futuro" onclick="closeMenu()">Futuro</a></li>
+        </ul>
+        <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">🌿 Educação & Sustentabilidade</div>
+            <h1>Agro <span class="highlight">Forte</span>,<br>Futuro <span class="highlight">Sustentável</span></h1>
+            <p>Conheça o Projeto Agrinho: uma iniciativa que transforma a educação no campo, mostrando como o agronegócio é a força que alimenta o Brasil e constrói um futuro mais verde para todos.</p>
+            <div class="hero-buttons">
+                <a href="#agro-forte" class="btn btn-primary">🌱 Descubra Mais</a>
+                <a href="#sobre" class="btn btn-secondary">📖 Sobre o Projeto</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+        </div>
+    </section>
+
+    <!-- SOBRE O PROJETO -->
+    <section class="sobre" id="sobre">
+        <div class="section-header reveal">
+            <div class="section-tag">Conheça</div>
+            <h2>O que é o Projeto Agrinho?</h2>
+            <p>Um programa educacional que conecta estudantes ao mundo do agronegócio sustentável</p>
+        </div>
+        <div class="sobre-grid">
+            <div class="sobre-image reveal-left">
+                <div class="img-placeholder">🚜</div>
+                <div class="floating-card">🏆 +20 anos de história</div>
+            </div>
+            <div class="sobre-text reveal-right">
+                <h3>Educação que transforma o campo e a cidade</h3>
+                <p>O <strong>Projeto Agrinho</strong> é uma iniciativa socioeducativa que leva o conhecimento sobre o agronegócio sustentável para escolas de todo o Brasil. Ele mostra como a agricultura e a pecuária são fundamentais para a economia, a alimentação e o desenvolvimento do país.</p>
+                <p>Através de atividades práticas, cartilhas, vídeos e projetos interdisciplinares, o Agrinho conecta alunos do Ensino Fundamental e Médio ao universo rural, promovendo valores como sustentabilidade, cidadania e responsabilidade ambiental.</p>
+                <div class="sobre-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="5000000">0</div>
+                        <div class="stat-label">Alunos alcançados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="30000">0</div>
+                        <div class="stat-label">Escolas participantes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="27">0</div>
+                        <div class="stat-label">Estados atingidos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGRO FORTE -->
+    <section class="agro-forte" id="agro-forte">
+        <div class="section-header reveal">
+            <div class="section-tag">Poder</div>
+            <h2>Agro Forte 🌾</h2>
+            <p>O agronegócio é o motor da economia brasileira e uma das bases mais sólidas do país</p>
+        </div>
+        <div class="agro-cards">
+            <div class="agro-card reveal">
+                <div class="icon">📊</div>
+                <h3>Potência Econômica</h3>
+                <p>O agronegócio representa cerca de 25% do PIB brasileiro. O Brasil é líder mundial na exportação de soja, café, açúcar e carne bovina, abastecendo mercados internacionais.</p>
+            </div>
+            <div class="agro-card reveal">
+                <div class="icon">🌍</div>
+                <h3>Segurança Alimentar</h3>
+                <p>O agro brasileiro alimenta mais de 1 bilhão de pessoas no mundo. A produção nacional garante alimento na mesa dos brasileiros e de populações em diversos países.</p>
+            </div>
+            <div class="agro-card reveal">
+                <div class="icon">💻</div>
+                <h3>Tecnologia & Inovação</h3>
+                <p>Drones, IA, agricultura de precisão e biotecnologia revolucionam o campo. O Brasil é referência mundial em pesquisa agropecuária com a EMBRAPA.</p>
+            </div>
+            <div class="agro-card reveal">
+                <div class="icon">👨‍🌾</div>
+                <h3>Empregos e Renda</h3>
+                <p>O agronegócio gera milhões de empregos diretos e indiretos, do pequeno produtor rural às grandes indústrias, movimentando toda a cadeia produtiva.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESAFIOS -->
+    <section class="desafios" id="desafios">
+        <div class="section-header reveal">
+            <div class="section-tag">Superar</div>
+            <h2>Desafios do Agro</h2>
+            <p>O caminho para o desenvolvimento sustentável enfrenta obstáculos que precisam ser superados</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>🌡️ Mudanças Climáticas</h3>
+                    <p>Secas extremas, chuvas irregulares e eventos climáticos imprevisíveis ameaçam a produção agrícola e exigem adaptação constante dos produtores.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>🌳 Desmatamento e Meio Ambiente</h3>
+                    <p>O equilíbrio entre produção e preservação é um dos maiores desafios. É preciso produzir mais sem destruir biomas como a Amazônia e o Cerrado.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>🧑‍🎓 Êxodo Rural</h3>
+                    <p>Jovens abandonam o campo em busca de oportunidades nas cidades. É preciso tornar a vida rural atrativa com tecnologia e qualidade de vida.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>🏗️ Infraestrutura e Logística</h3>
+                    <p>Estradas precárias, armazenamento insuficiente e custos altos de transporte impactam a competitividade do agro brasileiro no mercado global.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-content">
+                    <h3>⚖️ Desigualdade no Campo</h3>
+                    <p>Pequenos agricultores enfrentam dificuldades de acesso a crédito, tecnologia e mercados. A agricultura familiar precisa de mais apoio e reconhecimento.</p>
+                </div>
+                <div class="timeline-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VANTAGENS E BENEFÍCIOS -->
+    <section class="vantagens" id="vantagens">
+        <div class="section-header reveal">
+            <div class="section-tag">Conquistas</div>
+            <h2>Vantagens e Benefícios</h2>
+            <p>O agronegócio sustentável traz impactos positivos para toda a sociedade</p>
+        </div>
+        <div class="vantagens-grid">
+            <div class="vantagem-column reveal-left">
+                <h3>✅ Vantagens do Agro Sustentável</h3>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Produção Limpa</h4>
+                        <p>Técnicas que reduzem o uso de agrotóxicos e promovem a saúde do solo e dos consumidores.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Energia Renovável</h4>
+                        <p>Biocombustíveis como etanol e biodiesel gerados a partir da cana e da soja reduzem a dependência de petróleo.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Integração Lavoura-Pecuária-Floresta</h4>
+                        <p>Sistema que combina produção agrícola, animal e florestal na mesma área, aumentando a produtividade de forma ecológica.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Balança Comercial Favorável</h4>
+                        <p>As exportações do agro geram divisas que fortalecem a economia e permitem investimentos em saúde, educação e infraestrutura.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="vantagem-column reveal-right">
+                <h3>🌟 Benefícios para a Sociedade</h3>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Alimento Acessível</h4>
+                        <p>Produção em larga escala mantém os preços dos alimentos estáveis e acessíveis para toda a população brasileira.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Desenvolvimento Regional</h4>
+                        <p>O agro impulsiona cidades do interior, gerando empregos, comércio e melhorias na infraestrutura local.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Preservação Ambiental</h4>
+                        <p>O Brasil possui legislação ambiental rigorosa e o agro moderno investe em conservação e recuperação de nascentes e matas ciliares.</p>
+                    </div>
+                </div>
+                <div class="vantagem-item">
+                    <div class="check">✓</div>
+                    <div>
+                        <h4>Educação e Cidadania</h4>
+                        <p>Projetos como o Agrinho formam cidadãos conscientes sobre a origem dos alimentos e a importância do campo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUTURO SUSTENTÁVEL -->
+    <section class="futuro" id="futuro">
+        <div class="section-header reveal">
+            <div class="section-tag">Amanhã</div>
+            <h2>Futuro Sustentável 🌿</h2>
+            <p>Como a agricultura do amanhã vai alimentar o mundo preservando o planeta</p>
+        </div>
+        <div class="futuro-cards">
+            <div class="futuro-card reveal">
+                <div class="card-icon">🤖</div>
+                <h3>Agricultura 4.0</h3>
+                <p>Sensores inteligentes, inteligência artificial e robôs autônomos vão tornar a produção mais eficiente, reduzindo desperdícios e otimizando recursos hídricos e energéticos.</p>
+            </div>
+            <div class="futuro-card reveal">
+                <div class="card-icon">🌱</div>
+                <h3>Agroecologia</h3>
+                <p>Sistemas de produção que respeitam a natureza, utilizando técnicas orgânicas, agroflorestais e de baixo impacto para garantir alimentos saudáveis e biodiversidade.</p>
+            </div>
+            <div class="futuro-card reveal">
+                <div class="card-icon">💧</div>
+                <h3>Gestão da Água</h3>
+                <p>Irrigação de precisão, captação de água da chuva e reúso hídrico serão essenciais para enfrentar a escassez e garantir a produção agrícola nas próximas décadas.</p>
+            </div>
+            <div class="futuro-card reveal">
+                <div class="card-icon">🧬</div>
+                <h3>Biotecnologia</h3>
+                <p>Pesquisas em genética vegetal e animal desenvolvem variedades mais resistentes a pragas e secas, reduzindo a necessidade de defensivos químicos.</p>
+            </div>
+            <div class="futuro-card reveal">
+                <div class="card-icon">♻️</div>
+                <h3>Economia Circular</h3>
+                <p>Resíduos agrícolas são transformados em energia, fertilizantes e novos produtos, eliminando desperdícios e criando ciclos produtivos fechados.</p>
+            </div>
+            <div class="futuro-card reveal">
+                <div class="card-icon">🎓</div>
+                <h3>Educação no Campo</h3>
+                <p>Investir em educação rural e formar jovens agricultores conscientes é a chave para manter o agro brasileiro forte, inovador e sustentável por gerações.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Faça parte dessa mudança! 🌍</h2>
+        <p>Conhecer o agronegócio sustentável é o primeiro passo para construir um futuro melhor para o Brasil e para o planeta.</p>
+        <a href="#hero" class="btn">↑ Voltar ao Topo</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>🌾 Projeto <span>Agrinho</span></h3>
+                <p>Site desenvolvido como trabalho escolar para o 1º ano do Ensino Médio. O Projeto Agrinho é uma iniciativa que promove a educação sobre o agronegócio sustentável nas escolas brasileiras, formando cidadãos conscientes e preparados para os desafios do futuro.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#agro-forte">Agro Forte</a></li>
+                    <li><a href="#desafios">Desafios</a></li>
+                    <li><a href="#vantagens">Vantagens</a></li>
+                    <li><a href="#futuro">Futuro Sustentável</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Informações</h4>
+                <p>📚 Trabalho Escolar - 1º Ano EM</p>
+                <p>🌐 Projeto Agrinho Brasil</p>
+                <p>📅 2026</p>
+                <p>💚 Educação & Sustentabilidade</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Projeto Agrinho — Site criado para fins educacionais. Todos os direitos reservados. 🌱</p>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+    <script>
+        // ===== LOADER =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // ===== PARTICLES =====
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const emojis = ['🌿', '🍃', '🌱', '✨', '🌾', '💚'];
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.fontSize = (Math.random() * 20 + 12) + 'px';
+                particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                particle.style.animationDelay = (Math.random() * 5) + 's';
+                particle.style.background = 'none';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+        }
+
+        // ===== SCROLL REVEAL =====
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 120;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        // ===== COUNTER ANIMATION =====
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-target]');
+
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const start = 0;
+                const startTime = performance.now();
+
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(start + (target - start) * easeOut);
+
+                    if (target >= 1000000) {
+                        counter.textContent = (current / 1000000).toFixed(1) + 'M+';
+                    } else if (target >= 1000) {
+                        counter.textContent = (current / 1000).toFixed(0) + 'K+';
+                    } else {
+                        counter.textContent = current + '+';
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+
+                // Start counting when element is visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            requestAnimationFrame(update);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(counter);
+            });
+        }
+
+        animateCounters();
+
+        // ===== SMOOTH SCROLL FOR NAV LINKS =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
